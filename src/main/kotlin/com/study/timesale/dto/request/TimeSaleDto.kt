@@ -3,6 +3,7 @@ package com.study.timesale.dto.request
 import com.fasterxml.jackson.annotation.JsonProperty
 import jakarta.validation.constraints.Future
 import jakarta.validation.constraints.FutureOrPresent
+import jakarta.validation.constraints.Min
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Positive
 import java.time.LocalDateTime
@@ -29,4 +30,13 @@ data class CreateTimeSaleRequest(
     @NotNull(message = "End time cannot be null")
     @Future(message = "End time must be greater than current time")
     val endAt: LocalDateTime,
+)
+
+data class PurchaseRequest(
+    @NotNull(message = "userId cannot be null")
+    val userId: Long,
+
+    @NotNull(message = "quantity cannot be null")
+    @Min(value = 1, message = "Quantity must be greater than 0")
+    val quantity: Long,
 )
