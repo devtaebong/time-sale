@@ -17,7 +17,7 @@ fun TimeSaleRepository.getTimeSaleById(id: Long): TimeSale =
     this.findById(id).getOrNull() ?: throw NoSuchElementException("TimeSale not found")
 
 fun TimeSaleRepository.getTimeSaleByIdWithPessimisticLock(id: Long): TimeSale =
-    this.findByIdWithPessimisticLock(id) ?: throw NoSuchElementException("Product not found")
+    this.findByIdWithPessimisticLock(id) ?: throw NoSuchElementException("TimeSale not found")
 
 @Repository
 interface TimeSaleRepository : JpaRepository<TimeSale, Long> {
