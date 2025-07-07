@@ -29,7 +29,7 @@ class TimeSaleOrder(
     val timeSale: TimeSale,
 
     @Column(nullable = false)
-    val quantity: Int,
+    val quantity: Long,
 
     @Column(nullable = false)
     val discountPrice: Long,
