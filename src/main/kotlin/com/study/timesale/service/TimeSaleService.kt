@@ -8,6 +8,8 @@ import com.study.timesale.repository.TimeSaleOrderRepository
 import com.study.timesale.repository.TimeSaleRepository
 import com.study.timesale.repository.getProductById
 import com.study.timesale.repository.getTimeSaleById
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
@@ -48,4 +50,10 @@ class TimeSaleService(
 
     @Transactional(readOnly = true)
     fun getTimeSale(timeSaleId: Long): TimeSale = timeSaleRepository.getTimeSaleById(timeSaleId)
+
+    @Transactional(readOnly = true)
+    fun getOngoingTimeSale(pageable: Pageable): Page<TimeSale> {
+        val now = LocalDateTime.now()
+        return timeSaleRepository.findAllByStartAtBeforeAndEndAtAfterAndStatus(now, TimeSaleStatus.ACTIVE, pageable)
+    }
 }
