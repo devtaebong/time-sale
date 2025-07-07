@@ -27,11 +27,11 @@ class Product(
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
-    val createdAt: LocalDateTime? = null,
+    val createdAt: LocalDateTime = LocalDateTime.now(),
 
     @LastModifiedDate
     @Column(nullable = false)
-    val updatedAt: LocalDateTime? = null,
+    val updatedAt: LocalDateTime = LocalDateTime.now(),
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0
