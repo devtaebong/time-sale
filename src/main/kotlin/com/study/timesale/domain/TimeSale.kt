@@ -27,10 +27,10 @@ class TimeSale(
     val product: Product,
 
     @Column(nullable = false)
-    val quantity: Int,
+    val quantity: Long,
 
     @Column(nullable = false)
-    var remainingQuantity: Int,
+    var remainingQuantity: Long,
 
     @Column(nullable = false)
     val discountPrice: Long,
@@ -50,11 +50,11 @@ class TimeSale(
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
-    val createdAt: LocalDateTime,
+    val createdAt: LocalDateTime? = null,
 
     @LastModifiedDate
     @Column(nullable = false)
-    val updatedAt: LocalDateTime,
+    val updatedAt: LocalDateTime? = null,
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
