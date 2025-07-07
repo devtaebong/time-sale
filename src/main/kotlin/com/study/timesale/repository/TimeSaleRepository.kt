@@ -23,8 +23,8 @@ fun TimeSaleRepository.getTimeSaleByIdWithPessimisticLock(id: Long): TimeSale =
 interface TimeSaleRepository : JpaRepository<TimeSale, Long> {
     @Query("select ts from TimeSale ts where ts.startAt <= :now and ts.endAt >= :now and ts.status = :status")
     fun findAllByStartAtBeforeAndEndAtAfterAndStatus(
-        now: LocalDateTime,
-        status: TimeSaleStatus,
+        @Param("now") now: LocalDateTime,
+        @Param("status") status: TimeSaleStatus,
         pageable: Pageable,
     ): Page<TimeSale>
 
