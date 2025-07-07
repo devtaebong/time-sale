@@ -1,6 +1,5 @@
 package com.study.timesale.service
 
-import com.study.timesale.domain.Product
 import com.study.timesale.domain.TimeSale
 import com.study.timesale.domain.TimeSaleStatus
 import com.study.timesale.dto.request.CreateTimeSaleRequest
@@ -8,6 +7,7 @@ import com.study.timesale.repository.ProductRepository
 import com.study.timesale.repository.TimeSaleOrderRepository
 import com.study.timesale.repository.TimeSaleRepository
 import com.study.timesale.repository.getProductById
+import com.study.timesale.repository.getTimeSaleById
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
@@ -45,4 +45,7 @@ class TimeSaleService(
         require(quantity > 0) { "quantity must be greater than zero: quantity=$quantity" }
         require(discountPrice > 0) { "discountPrice must be greater than zero: discountPrice=$discountPrice" }
     }
+
+    @Transactional(readOnly = true)
+    fun getTimeSale(timeSaleId: Long): TimeSale = timeSaleRepository.getTimeSaleById(timeSaleId)
 }
