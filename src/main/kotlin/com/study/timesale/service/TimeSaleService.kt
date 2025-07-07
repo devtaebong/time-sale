@@ -1,13 +1,16 @@
 package com.study.timesale.service
 
 import com.study.timesale.domain.TimeSale
+import com.study.timesale.domain.TimeSaleOrder
 import com.study.timesale.domain.TimeSaleStatus
 import com.study.timesale.dto.request.CreateTimeSaleRequest
+import com.study.timesale.dto.request.PurchaseRequest
 import com.study.timesale.repository.ProductRepository
 import com.study.timesale.repository.TimeSaleOrderRepository
 import com.study.timesale.repository.TimeSaleRepository
 import com.study.timesale.repository.getProductById
 import com.study.timesale.repository.getTimeSaleById
+import com.study.timesale.repository.getTimeSaleByIdWithPessimisticLock
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
@@ -55,5 +58,23 @@ class TimeSaleService(
     fun getOngoingTimeSale(pageable: Pageable): Page<TimeSale> {
         val now = LocalDateTime.now()
         return timeSaleRepository.findAllByStartAtBeforeAndEndAtAfterAndStatus(now, TimeSaleStatus.ACTIVE, pageable)
+    }
+
+    @Transactional
+    fun purchaseTimeSale(timeSaleId: Long, request: PurchaseRequest): TimeSale {
+        val foundTimeSale = timeSaleRepository.getTimeSaleByIdWithPessimisticLock(timeSaleId)
+
+        foundTimeSale.purchase(request.quantity)
+        timeSaleRepository.save(foundTimeSale)
+
+        val savedTimeSaleOrder = TimeSaleOrder(
+            userId = request.userId,
+            timeSale = foundTimeSale,
+            quantity = request.quantity,
+            discountPrice = foundTimeSale.discountPrice,
+        ).let { timeSaleOrderRepository.save(it) }
+
+        savedTimeSaleOrder.complete()
+        return foundTimeSale
     }
 }
