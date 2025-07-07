@@ -49,4 +49,8 @@ class TimeSaleOrder(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
-)
+) {
+    fun complete() {
+        this.orderStatus = OrderStatus.COMPLETED
+    }
+}
