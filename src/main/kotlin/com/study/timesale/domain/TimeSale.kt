@@ -59,4 +59,30 @@ class TimeSale(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
-)
+) {
+    fun purchase(quantity: Long) {
+        validatePurchase(quantity)
+        this.remainingQuantity -= quantity
+    }
+
+    private fun validatePurchase(quantity: Long) {
+        validateStatus()
+        validateQuantity(quantity)
+        validatePeriod()
+    }
+
+    private fun validateStatus() {
+        check(status == TimeSaleStatus.ACTIVE) { "Time sale is not active" }
+    }
+
+    private fun validateQuantity(quantity: Long) {
+        check(remainingQuantity >= quantity) { "not enough quantity to purchase time" }
+    }
+
+    private fun validatePeriod() {
+        val now = LocalDateTime.now()
+        check(now.isAfter(startAt) && now.isBefore(endAt)) {
+            "Current time ($now) is not within the time sale period: $startAt ~ $endAt"
+        }
+    }
+}
