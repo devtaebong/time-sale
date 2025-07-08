@@ -10,7 +10,9 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.api.assertThrows
+import java.time.LocalDateTime
 import java.util.*
+import kotlin.NoSuchElementException
 
 class ProductServiceTest : DescribeSpec({
     lateinit var sut: ProductService
@@ -25,7 +27,6 @@ class ProductServiceTest : DescribeSpec({
     }
 
     beforeTest {
-
         request = CreateProductRequest(
             name = "Test Product Name",
             price = 10_000L,
