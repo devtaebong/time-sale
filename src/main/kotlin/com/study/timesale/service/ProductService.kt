@@ -19,4 +19,7 @@ class ProductService(
 
     @Transactional(readOnly = true)
     fun getProduct(productId: Long): Product = productRepository.getProductById(productId)
+
+    @Transactional(readOnly = true)
+    fun getAllProducts(): List<Product> = productRepository.findAll()
 }

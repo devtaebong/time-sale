@@ -28,4 +28,12 @@ class ProductController(
         val product = productService.getProduct(productId)
         return ResponseEntity.ok(ProductResponse.from(product))
     }
+
+    @GetMapping
+    fun getProducts(): ResponseEntity<List<ProductResponse>> {
+        val products = productService.getAllProducts()
+        return ResponseEntity.ok(
+            products.map { ProductResponse.from(it) }
+        )
+    }
 }
