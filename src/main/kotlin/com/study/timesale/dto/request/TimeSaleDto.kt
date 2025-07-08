@@ -21,7 +21,7 @@ data class CreateTimeSaleRequest(
     @Positive(message = "Discount Price must be positive")
     val discountPrice: Long,
 
-    @field:JsonProperty("discountPrice")
+    @field:JsonProperty("startAt")
     @NotNull(message = "Start time cannot be null")
     @FutureOrPresent(message = "Start time must be current time or in the future")
     val startAt: LocalDateTime,
