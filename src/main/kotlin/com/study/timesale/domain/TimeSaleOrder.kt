@@ -2,7 +2,6 @@ package com.study.timesale.domain
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
-import jakarta.persistence.EntityListeners
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
 import jakarta.persistence.FetchType
@@ -14,12 +13,10 @@ import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
-import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.LocalDateTime
 
 @Entity
 @Table(name = "time_sale_orders")
-@EntityListeners(AuditingEntityListener::class)
 class TimeSaleOrder(
     @Column(nullable = false)
     val userId: Long,
@@ -40,11 +37,11 @@ class TimeSaleOrder(
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
-    val createdAt: LocalDateTime? = null,
+    val createdAt: LocalDateTime = LocalDateTime.now(),
 
     @LastModifiedDate
     @Column(nullable = false)
-    val updatedAt: LocalDateTime? = null,
+    val updatedAt: LocalDateTime = LocalDateTime.now(),
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
