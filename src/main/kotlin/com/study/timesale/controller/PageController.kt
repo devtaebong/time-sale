@@ -14,4 +14,9 @@ class PageController {
     fun timeSale(): String {
         return "timesale"
     }
+
+    @GetMapping("/ui/async-time-sale")
+    fun asyncTimeSale(): String {
+        return "async-timesale"
+    }
 }

@@ -1,68 +1,160 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Product Management</title>
+    <meta charset="UTF-8" />
+    <title>상품 관리</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+    />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        body {
+            background-color: #f6f9f8;
+            font-family: 'Segoe UI', 'Malgun Gothic', sans-serif;
+            color: #333;
+        }
+
+        h2 {
+            font-weight: bold;
+            color: #3c988f;
+        }
+
+        .nav-tabs .nav-link {
+            font-weight: 600;
+            color: #3c988f;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .nav-tabs .nav-link.active {
+            background-color: #d4f1ed;
+            border-color: #d4f1ed #d4f1ed transparent;
+        }
+
+        .section-card {
+            background-color: #ffffff;
+            border: none;
+            border-radius: 1rem;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.04);
+            padding: 2rem;
+        }
+
+        .section-card .card-header {
+            background-color: transparent;
+            border-bottom: none;
+            font-size: 1.25rem;
+            color: #3c988f;
+            font-weight: bold;
+        }
+
+        .form-control {
+            border-radius: 0.7rem;
+        }
+
+        .btn-mint {
+            background-color: #3c988f;
+            border: none;
+            color: white;
+            font-weight: bold;
+            padding: 0.6rem 2rem;
+            border-radius: 999px;
+        }
+
+        .btn-mint:hover {
+            background-color: #33877f;
+        }
+
+        .table thead {
+            background-color: #e5f7f5;
+            color: #2d7069;
+        }
+
+        .table td,
+        .table th {
+            vertical-align: middle;
+        }
+
+        .muted {
+            color: #aaa;
+        }
+    </style>
 </head>
 <body>
-<div class="container mt-5">
-    <h2>Product Management</h2>
-    <!-- Navigation Tabs -->
-    <ul class="nav nav-tabs mb-4">
+<div class="container my-5">
+    <h2 class="mb-4">🧸 상품 관리 시스템</h2>
+
+    <!-- 네비게이션 -->
+    <ul class="nav nav-tabs mb-5">
         <li class="nav-item">
-            <a class="nav-link active" href="/ui/product">Product</a>
+            <a class="nav-link active" href="/ui/product">상품</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/ui/time-sale">Time Sale (V1/V2)</a>
+            <a class="nav-link" href="/ui/time-sale">타임세일 (V1/V2)</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/ui/async-time-sale">Time Sale (Async)</a>
+            <a class="nav-link" href="/ui/async-time-sale">타임세일 (비동기)</a>
         </li>
     </ul>
-    <!-- Create Product Form -->
-    <div class="card mb-4">
-        <div class="card-header">
-            Create New Product
-        </div>
-        <div class="card-body">
-            <form id="createProductForm">
-                <div class="mb-3">
-                    <label for="name" class="form-label">Product Name</label>
-                    <input type="text" class="form-control" id="name" required>
-                </div>
-                <div class="mb-3">
-                    <label for="price" class="form-label">Price</label>
-                    <input type="number" class="form-control" id="price" required>
-                </div>
-                <div class="mb-3">
-                    <label for="description" class="form-label">Description</label>
-                    <textarea class="form-control" id="description" required></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Create Product</button>
-            </form>
-        </div>
+
+    <!-- 상품 등록 -->
+    <div class="section-card mb-5">
+        <div class="card-header">📝 새 상품 등록</div>
+        <form id="createProductForm" class="mt-4">
+            <div class="mb-3">
+                <label for="name" class="form-label">상품명</label>
+                <input
+                        type="text"
+                        class="form-control"
+                        id="name"
+                        required
+                        placeholder="예: 무선 이어폰"
+                />
+            </div>
+            <div class="mb-3">
+                <label for="price" class="form-label">가격 (₩)</label>
+                <input
+                        type="number"
+                        class="form-control"
+                        id="price"
+                        required
+                        placeholder="예: 299000"
+                />
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">상품 설명</label>
+                <textarea
+                        class="form-control"
+                        id="description"
+                        rows="3"
+                        required
+                        placeholder="예: 고음질 블루투스 무선 이어폰"
+                ></textarea>
+            </div>
+            <div class="text-end">
+                <button id="submitBtn" type="submit" class="btn-mint">등록하기</button>
+            </div>
+        </form>
     </div>
 
-    <!-- Product List -->
-    <div class="card">
-        <div class="card-header">
-            Product List
-        </div>
-        <div class="card-body">
-            <table class="table">
+    <!-- 상품 목록 -->
+    <div class="section-card">
+        <div class="card-header">📋 상품 목록</div>
+        <div class="card-body px-0">
+            <table class="table mb-0">
                 <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th>Description</th>
-                    <th>Created At</th>
+                    <th>번호</th>
+                    <th>이름</th>
+                    <th>가격</th>
+                    <th>설명</th>
+                    <th>등록일</th>
                 </tr>
                 </thead>
                 <tbody id="productList">
+                <tr>
+                    <td colspan="5" class="text-center py-4 muted">상품을 불러오는 중입니다...</td>
+                </tr>
                 </tbody>
             </table>
         </div>
@@ -70,15 +162,19 @@
 </div>
 
 <script>
-    $(document).ready(function() {
-        // Create Product
-        $('#createProductForm').submit(function(e) {
+    $(document).ready(function () {
+        const $form = $('#createProductForm');
+        const $submitBtn = $('#submitBtn');
+        const $productList = $('#productList');
+
+        $form.submit(function (e) {
             e.preventDefault();
+            $submitBtn.prop('disabled', true).text('등록 중...');
 
             const data = {
                 name: $('#name').val(),
                 price: parseInt($('#price').val()),
-                description: $('#description').val()
+                description: $('#description').val(),
             };
 
             $.ajax({
@@ -86,30 +182,43 @@
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(data),
-                success: function(response) {
-                    alert('Product created successfully!');
+                success: function () {
+                    alert('🎉 상품이 등록되었습니다!');
+                    $form[0].reset();
                     loadProducts();
-                    $('#createProductForm')[0].reset();
                 },
-                error: function(xhr) {
-                    alert('Error creating product: ' + xhr.responseText);
-                }
+                error: function (xhr) {
+                    alert('⚠️ 오류: ' + xhr.responseText);
+                },
+                complete: function () {
+                    $submitBtn.prop('disabled', false).text('등록하기');
+                },
             });
         });
 
         function loadProducts() {
-            $.get('/api/v1/products', function(products) {
-                $('#productList').empty();
-                products.forEach(function(product) {
-                    $('#productList').append(`
-                        <tr>
-                            <td>${product.id}</td>
-                            <td>${product.name}</td>
-                            <td>${product.price}</td>
-                            <td>${product.description}</td>
-                            <td>${product.createdAt}</td>
-                        </tr>
-                    `);
+            $.get('/api/v1/products', function (products) {
+                $productList.empty();
+                if (products.length === 0) {
+                    $productList.append(`
+              <tr>
+                <td colspan="5" class="text-center py-4 muted">등록된 상품이 없습니다.</td>
+              </tr>
+            `);
+                    return;
+                }
+
+                products.forEach(function (product) {
+                    const formattedDate = new Date(product.createdAt).toLocaleString();
+                    $productList.append(`
+              <tr>
+                <td>${product.id}</td>
+                <td>${product.name}</td>
+                <td>₩${product.price.toLocaleString()}</td>
+                <td>${product.description}</td>
+                <td>${formattedDate}</td>
+              </tr>
+            `);
                 });
             });
         }
